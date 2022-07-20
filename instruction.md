@@ -5,69 +5,67 @@
 - Собранный образ необходимо запушить в docker hub и дать ссылку на ваш репозиторий.
  
 ## Создать свой кастомный образ nginx на базе alpine 
+Установить docker  
+``sudo yum install -y yum-utils``  
+``sudo yum-config-manager \``  
+	``--add-repo \``  
+	``https://download.docker.com/linux/centos/docker-ce.repo``  
+``sudo yum install docker-ce docker-ce-cli containerd.io``  
 
-Установить docker
-``sudo yum install -y yum-utils``
-``sudo yum-config-manager \``
-	``--add-repo \``
-	``https://download.docker.com/linux/centos/docker-ce.repo``
-``sudo yum install docker-ce docker-ce-cli containerd.io``
+Запустить службу  
+``systemctl start docker``  
 
-Запустить службу
-``systemctl start docker``
+Добавить службу в автозагрузку  
+``systemctl enable dock``  
 
-Добавить службу в автозагрузку
-``systemctl enable dock``
+В новой директории создать три файла:  
+``Dockerfile  index.html  nginx.conf``  
 
-В новой директории создать три файла:
-``Dockerfile  index.html  nginx.conf``
+Перейти в суперпользователя  
+``sudo su``  
 
-Перейти в суперпользователя
-``sudo su``
+Создаем новый образ находясь в директории с нашими файлами  
+``docker build -t nginx:alpine .``  
 
-Создаем новый образ находясь в директории с нашими файлами
-``docker build -t nginx:alpine .``
+Запускаем контейнер с пробросом порта  
+``docker run -d -p 8080:80 nginx:alpine``  
 
-Запускаем контейнер с пробросом порта
-``docker run -d -p 8080:80 nginx:alpine``
+Проверяем, что контейнер запущен  
+``docker ps``  
 
-Проверяем, что контейнер запущен
-``docker ps``
+Обращаемся к localhost для проверки (видим текст приветсвия)  
+``curl localhost:8080``  
 
-Обращаемся к localhost для проверки (видим текст приветсвия)
-``curl localhost:8080``
+Логинимся на DockerHub  
+``docker login``  
 
-Логинимся на DockerHub
-``docker login``
+Указываем образ, который хотим залить на dockerhub  
+``docker tag nginx:alpine remizov/nginx-on-alpine``  
 
-Указываем образ, который хотим залить на dockerhub
-``docker tag nginx:alpine remizov/nginx-on-alpine``
+И загружаем в репозитарий DockerHub  
+``docker push remizov/nginx-on-alpine``  
 
-И загружаем в репозитарий DockerHub
-``docker push remizov/nginx-on-alpine``
+Удаляем все ранее созданные контейнеры и образы, и проверяем новый образ  
+``docker pull remizov/nginx-on-alpine``  
 
-Удаляем все ранее созданные контейнеры и образы, и проверяем новый образ
-``docker pull remizov/nginx-on-alpine``
+Проверить создание образа  
+``docker images``  
 
-Проверить создание образа
-``docker images``
+Создать контейнер из нового образа  
+``docker run -d -p 8080:80 remizov/nginx-on-alpine``  
 
-Создать контейнер из нового образа
-``docker run -d -p 8080:80 remizov/nginx-on-alpine``
-
-Обращаемся к localhost для проверки (видим текст приветсвия)
-``curl localhost:8080``
+Обращаемся к localhost для проверки (видим текст приветсвия)  
+``curl localhost:8080``  
 
 ## Определить разницу между контейнером и образом  
-Контейнер
 Контейнеры создаются из образов image. В контейнере можно внести изменения, потом закоммитить его и получить новый образ.
 Образ - это собранный двоичный пакет (хранящийся в системе или выложенный в репозиторий), включающий в себя определенные программы и зависимости, необходимые для запуска этих программ. Что касается структуры - образ состоит из целой пачки более мелких образов, называемых также слоями, каждый из которых содержит файлы, команды, результат их выполнения и другую мета-информацию.
-## Можно ли в контейнере собрать ядро?
+## Можно ли в контейнере собрать ядро?  
 В Docker-контейнере можно собрать ядро с произвольными патчами, флагами конфигурации и тегом, например, repository на сайте Docker Hub для сборки ядра Debian по ссылкам:
-hub https://hub.docker.com/r/tomzo/buildkernel
-git https://github.com/tomzo/docker-kernel-ide
+hub https://hub.docker.com/r/tomzo/buildkernel  
+git https://github.com/tomzo/docker-kernel-ide  
 
-Быстрым поиском в Google нашлись 3'и repository, где собирают ядро Linux под разные Linux дистрибутивы внутри Docker-контейнера.
+Быстрым поиском в Google нашлись 3'и repository, где собирают ядро Linux под разные Linux дистрибутивы внутри Docker-контейнера.  
 
-## Собранный образ необходимо запушить в docker hub и дать ссылку на ваш репозиторий
-https://hub.docker.com/r/remizov/nginx-on-alpine
+## Собранный образ необходимо запушить в docker hub и дать ссылку на ваш репозиторий   
+https://hub.docker.com/r/remizov/nginx-on-alpine  
