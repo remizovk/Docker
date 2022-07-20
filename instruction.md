@@ -16,7 +16,7 @@
 ``systemctl start docker``  
 
 Добавить службу в автозагрузку  
-``systemctl enable dock``  
+``systemctl enable docker``  
 
 Создать директорию и загрузить в нее три наших файла:  
 ``Dockerfile  index.html  nginx.conf``  
