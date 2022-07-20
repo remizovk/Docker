@@ -68,3 +68,6 @@ hub https://hub.docker.com/r/tomzo/buildkernel
 git https://github.com/tomzo/docker-kernel-ide
 
 Быстрым поиском в Google нашлись 3'и repository, где собирают ядро Linux под разные Linux дистрибутивы внутри Docker-контейнера.
+
+## Собранный образ необходимо запушить в docker hub и дать ссылку на ваш репозиторий
+https://hub.docker.com/r/remizov/nginx-on-alpine
